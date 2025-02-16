@@ -1,4 +1,6 @@
 class ApplicantsController < ApplicationController
+  skip_before_action :verify_authenticity_token, only: :save_results
+
   def new
     @applicant = Applicant.new
   end
@@ -14,6 +16,16 @@ class ApplicantsController < ApplicationController
 
   def show
     @applicant = Applicant.find(params[:id])
+  end
+
+  def save_results
+    applicant = Applicant.find_by(id: params[:applicant_id])
+    if applicant
+      applicant.update(results: params[:results])
+      head :ok
+    else
+      head :not_found
+    end
   end
 
   private
