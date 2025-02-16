@@ -7,7 +7,7 @@ class ResultsController < ApplicationController
         education = params[:education]
         job_offer = params[:job_offer]
 
-        render status: :ok
+        render json: { message: "Candidate processing started" }, status: :ok
 
         Thread.new do
             process_candidate(applicant_id, work_experience, education, job_offer)
@@ -31,7 +31,7 @@ class ResultsController < ApplicationController
                 "Authorization" => "Bearer #{openai_api_key}"
             },
             body: {
-                model: "text-davinci-003",
+                model: "gpt-4o-mini",
                 prompt: prompt,
                 max_tokens: 60,
                 temperature: 0.7
