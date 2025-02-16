@@ -1,0 +1,43 @@
+<h1>Postularse a un Puesto de Trabajo</h1>
+
+<%= form_with(model: @applicant, local: true, html: { multipart: true }) do |form| %>
+  <% if @applicant.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@applicant.errors.count, "error") %> impidió enviar la aplicación:</h2>
+      <ul>
+        <% @applicant.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :names, "Nombres" %><br>
+    <%= form.text_field :names %>
+  </div>
+
+  <div>
+    <%= form.label :phone, "Teléfono" %><br>
+    <%= form.text_field :phone %>
+  </div>
+
+  <div>
+    <%= form.label :work_experience, "Experiencia laboral" %><br>
+    <%= form.text_area :work_experience %>
+  </div>
+
+  <div>
+    <%= form.label :education, "Estudios" %><br>
+    <%= form.text_area :education %>
+  </div>
+
+  <div>
+    <%= form.label :cv, "CV (PDF)" %><br>
+    <%= form.file_field :cv %>
+  </div>
+
+  <div>
+    <%= form.submit "Enviar Postulación" %>
+  </div>
+<% end %>

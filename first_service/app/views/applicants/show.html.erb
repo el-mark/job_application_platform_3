@@ -1,0 +1,10 @@
+<h1>Aplicación Enviada</h1>
+
+<p><strong>Nombres:</strong> <%= @applicant.names %></p>
+<p><strong>Teléfono:</strong> <%= @applicant.phone %></p>
+<p><strong>Experiencia laboral:</strong> <%= @applicant.work_experience %></p>
+<p><strong>Estudios:</strong> <%= @applicant.education %></p>
+
+<% if @applicant.cv.attached? %>
+  <p><strong>CV:</strong> <%= link_to "Descargar CV", rails_blob_path(@applicant.cv, disposition: "attachment") %></p>
+<% end %>
