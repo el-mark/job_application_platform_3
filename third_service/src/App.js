@@ -4,6 +4,7 @@ function App() {
   const [applicants, setApplicants] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [expandedApplicantId, setExpandedApplicantId] = useState(null);
 
   useEffect(() => {
     fetch('http://127.0.0.1:3000/applicants')
@@ -24,6 +25,10 @@ function App() {
       });
   }, []);
 
+  const toggleExpand = (id) => {
+    setExpandedApplicantId(expandedApplicantId === id ? null : id);
+  };
+
   if (loading) return <div>Cargando...</div>;
   if (error) return <div>Error: {error}</div>;
 
@@ -36,10 +41,17 @@ function App() {
             <h2>
               {applicant.names} - <span>IA: {applicant.ai_result}</span>
             </h2>
-            <p><strong>Teléfono:</strong> {applicant.phone}</p>
-            <p><strong>Experiencia Laboral:</strong> {applicant.work_experience}</p>
-            <p><strong>Educación:</strong> {applicant.education}</p>
-            <p><strong>Descripción de resultado:</strong> {applicant.ai_result_description}</p>
+            <button onClick={() => toggleExpand(applicant.id)}>
+              {expandedApplicantId === applicant.id ? 'ver menos' : 'ver más'}
+            </button>
+            {expandedApplicantId === applicant.id && (
+              <>
+                <p><strong>Teléfono:</strong> {applicant.phone}</p>
+                <p><strong>Experiencia Laboral:</strong> {applicant.work_experience}</p>
+                <p><strong>Educación:</strong> {applicant.education}</p>
+                <p><strong>Descripción de resultado:</strong> {applicant.ai_result_description}</p>
+              </>
+            )}
           </li>
         ))}
       </ul>
