@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   root "applicants#new"
-  resources :applicants, only: [:new, :create, :show]
+  resources :applicants, only: [:new, :create, :show, :index]
 
   post 'save_results', to: 'applicants#save_results'
 

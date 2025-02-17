@@ -1,5 +1,5 @@
 class ApplicantsController < ApplicationController
-  skip_before_action :verify_authenticity_token, only: :save_results
+  skip_before_action :verify_authenticity_token, only: [ :save_results, :index ]
 
   def new
     @applicant = Applicant.new
@@ -18,6 +18,7 @@ class ApplicantsController < ApplicationController
     @applicant = Applicant.find(params[:id])
   end
 
+  # api
   def save_results
     applicant = Applicant.find_by(id: params[:applicant_id])
     if applicant
@@ -29,6 +30,12 @@ class ApplicantsController < ApplicationController
     else
       head :not_found
     end
+  end
+
+  # api
+  def index
+    @applicants = Applicant.all
+    render json: @applicants
   end
 
   private
