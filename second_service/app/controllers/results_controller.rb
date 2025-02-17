@@ -18,38 +18,41 @@ class ResultsController < ApplicationController
 
     def process_candidate(applicant_id, work_experience, education, job_offer)
         prompt = <<~PROMPT
-        Evalúa al candidato para el puesto de #{job_offer}.
-        Experiencia laboral: #{work_experience}
-        Estudios: #{education}
-        Proporciónale un puntaje de adecuación de 0 a 100, donde 100 representa al candidato ideal.
+            Evalúa al candidato para el puesto de #{job_offer}.
+            Experiencia laboral: #{work_experience}
+            Estudios: #{education}
+            Retorna un análisis de su adecuación y un Puntaje de adecuación final que tome todo el análisis en cuenta.
+            El Puntaje de adecuación final debe ser un número del 0 a 100, donde 100 representa al candidato ideal y 0 representa a un candidato sin ninguna adecuación con el puesto.
+            El Puntaje de adecuación final enciérralo en dobles llaves, ejemplo: {{31}}
         PROMPT
 
-        openai_api_key = ENV['OPENAI_API_KEY']
-        response = HTTParty.post("https://api.openai.com/v1/completions",
-            headers: {
-                "Content-Type"  => "application/json",
-                "Authorization" => "Bearer #{openai_api_key}"
-            },
-            body: {
-                model: "gpt-4o-mini",
-                prompt: prompt,
-                max_tokens: 60,
+        client = OpenAI::Client.new(
+            access_token: ENV["OPENAI_KEY"],
+            log_errors: true # Highly recommended in development, so you can see what errors OpenAI is returning. Not recommended in production because it could leak private data to your logs.
+          )
+
+        response = client.chat(
+            parameters: {
+                model: "gpt-4o-mini", # Required.
+                messages: [ { role: "user", content: prompt } ], # Required.
                 temperature: 0.7
-            }.to_json
+            }
         )
+        text = response.dig("choices", 0, "message", "content") || ""
+        score = parse_score_from_response(text)
 
-        score = parse_score_from_response(response)
-
-        callback_data = { applicant_id: applicant_id.to_i, results: score.to_i }
+        callback_data = {
+            applicant_id: applicant_id.to_i, results: score.to_i, response: text
+        }
         HTTParty.post("http://127.0.0.1:3000/save_results",
             headers: { "Content-Type" => "application/json" },
             body: callback_data.to_json
         )
     end
 
-    def parse_score_from_response(response)
-        text = response["choices"]&.first&.dig("text") || ""
-        if match = text.match(/(\d{1,3})/)
+    # response.dig("choices", 0, "message", "content")
+    def parse_score_from_response(text)
+        if match = text.match(/{{\s*(\d+)\s*}}/)
             score = match[1].to_i
             score = 100 if score > 100
             score = 0 if score < 0

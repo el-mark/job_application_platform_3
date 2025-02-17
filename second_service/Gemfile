@@ -49,6 +49,8 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
+
+  require 'pry'
 end
 
 group :development do
@@ -63,3 +65,4 @@ group :test do
 end
 
 gem 'httparty'
+gem "ruby-openai"
