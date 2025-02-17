@@ -8,7 +8,7 @@
   <p class="mb-2"><strong>Estudios:</strong> <%= @applicant.education %></p>
 
   <% if @applicant.cv.attached? %>
-    <p class="mt-4"><strong>CV:</strong> <%= link_to "Descargar CV", rails_blob_path(@applicant.cv, disposition: "attachment"), class: "text-blue-500 hover:underline" %></p>
+    <p class="mt-4"><strong>CV:</strong> <%= link_to "Descargar CV", rails_blob_path(@applicant.cv, disposition: "attachment"), class: "text-blue-500 hover:underline", style: "color: blue; text-decoration: underline;" %></p>
   <% end %>
   <br>
 

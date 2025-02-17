@@ -16,6 +16,7 @@ class ApplicantsController < ApplicationController
       uri = URI.parse("http://127.0.0.1:3001/obtain_results")
       http = Net::HTTP.new(uri.host, uri.port)
       request = Net::HTTP::Post.new(uri.path, { "Content-Type" => "application/json" })
+
       request.body = {
         applicant_id: @applicant.id,
         work_experience: @applicant.work_experience,
