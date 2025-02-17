@@ -6,6 +6,7 @@ class ApplicantsController < ApplicationController
   skip_before_action :verify_authenticity_token, only: [ :save_results, :index ]
 
   def new
+    @job_offer = job_offer
     @applicant = Applicant.new
   end
 

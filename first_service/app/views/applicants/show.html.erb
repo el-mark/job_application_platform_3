@@ -1,10 +1,16 @@
-<h1>Aplicación Enviada</h1>
+<div>
+  <h1 class="text-2xl font-bold mb-4">Aplicación Enviada</h1>
+  <p>Pronto nos pondremos en contacto contigo.</p>
 
-<p><strong>Nombres:</strong> <%= @applicant.names %></p>
-<p><strong>Teléfono:</strong> <%= @applicant.phone %></p>
-<p><strong>Experiencia laboral:</strong> <%= @applicant.work_experience %></p>
-<p><strong>Estudios:</strong> <%= @applicant.education %></p>
+  <p class="mb-2"><strong>Nombres:</strong> <%= @applicant.names %></p>
+  <p class="mb-2"><strong>Teléfono:</strong> <%= @applicant.phone %></p>
+  <p class="mb-2"><strong>Experiencia laboral:</strong> <%= @applicant.work_experience %></p>
+  <p class="mb-2"><strong>Estudios:</strong> <%= @applicant.education %></p>
 
-<% if @applicant.cv.attached? %>
-  <p><strong>CV:</strong> <%= link_to "Descargar CV", rails_blob_path(@applicant.cv, disposition: "attachment") %></p>
-<% end %>
+  <% if @applicant.cv.attached? %>
+    <p class="mt-4"><strong>CV:</strong> <%= link_to "Descargar CV", rails_blob_path(@applicant.cv, disposition: "attachment"), class: "text-blue-500 hover:underline" %></p>
+  <% end %>
+  <br>
+
+  <%= link_to "Volver a la oferta", new_applicant_path, class: "mt-4 inline-block bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600", style: "padding-right: 18px; padding-left: 18px;"%>
+</div>

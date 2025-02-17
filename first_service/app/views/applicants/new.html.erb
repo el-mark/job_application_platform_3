@@ -1,43 +1,47 @@
-<h1>Postularse a un Puesto de Trabajo</h1>
+<div class="flex-auto">
+  <h1 class="text-2xl font-bold mb-4">Oferta de trabajo</h1>
 
-<%= form_with(model: @applicant, local: true, html: { multipart: true }) do |form| %>
-  <% if @applicant.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@applicant.errors.count, "error") %> impidió enviar la aplicación:</h2>
-      <ul>
-        <% @applicant.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
+  <p class="mb-4"><%= @job_offer%></p>
+
+  <%= form_with(model: @applicant, local: true, html: { multipart: true }) do |form| %>
+    <% if @applicant.errors.any? %>
+      <div id="error_explanation" class="bg-red-100 border border-red-400 text-red-700 p-4 rounded mb-4">
+        <h2 class="font-bold"><%= pluralize(@applicant.errors.count, "error") %> impidió enviar la aplicación:</h2>
+        <ul class="list-disc pl-5">
+          <% @applicant.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="mb-4">
+      <%= form.label :names, "Nombre Completo", class: "block text-sm font-medium text-gray-700" %>
+      <%= form.text_field :names, class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500 p-4" %>
+    </div>
+
+    <div class="mb-4">
+      <%= form.label :phone, "Teléfono", class: "block text-sm font-medium text-gray-700" %>
+      <%= form.text_field :phone, class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500 p-4" %>
+    </div>
+
+    <div class="mb-4">
+      <%= form.label :work_experience, "Experiencia laboral", class: "block text-sm font-medium text-gray-700" %>
+      <%= form.text_area :work_experience, class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500 p-4" %>
+    </div>
+
+    <div class="mb-4">
+      <%= form.label :education, "Estudios", class: "block text-sm font-medium text-gray-700" %>
+      <%= form.text_area :education, class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500 p-4" %>
+    </div>
+
+    <div class="mb-4">
+      <%= form.label :cv, "CV (PDF)", class: "block text-sm font-medium text-gray-700" %>
+      <%= form.file_field :cv, class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500 p-4" %>
+    </div>
+
+    <div>
+      <%= form.submit "Enviar Postulación", class: "w-full bg-blue-500 text-white font-bold py-2 rounded hover:bg-blue-600 mb-4" %>
     </div>
   <% end %>
-
-  <div>
-    <%= form.label :names, "Nombre Completo" %><br>
-    <%= form.text_field :names %>
-  </div>
-
-  <div>
-    <%= form.label :phone, "Teléfono" %><br>
-    <%= form.text_field :phone %>
-  </div>
-
-  <div>
-    <%= form.label :work_experience, "Experiencia laboral" %><br>
-    <%= form.text_area :work_experience %>
-  </div>
-
-  <div>
-    <%= form.label :education, "Estudios" %><br>
-    <%= form.text_area :education %>
-  </div>
-
-  <div>
-    <%= form.label :cv, "CV (PDF)" %><br>
-    <%= form.file_field :cv %>
-  </div>
-
-  <div>
-    <%= form.submit "Enviar Postulación" %>
-  </div>
-<% end %>
+</div>
