@@ -21,7 +21,10 @@ class ApplicantsController < ApplicationController
   def save_results
     applicant = Applicant.find_by(id: params[:applicant_id])
     if applicant
-      applicant.update(results: params[:results])
+      applicant.update(
+        ai_result: params[:results],
+        ai_result_description: params[:response]
+      )
       head :ok
     else
       head :not_found
