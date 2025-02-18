@@ -15,3 +15,13 @@ First Service & Second Service
 
 Third Service
 - npm start
+
+## Environment variables
+Second Service
+- OPENAI_KEY
+- DATABASE_URL (for postgreSQL database)
+
+## Development URL and Ports
+- http://127.0.0.1:3000/
+- http://127.0.0.1:3001/
+- http://localhost:3002/
