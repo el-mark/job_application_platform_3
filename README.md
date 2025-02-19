@@ -1,5 +1,8 @@
 # job_application_platform_3
 
+## Docker (build and run containers)
+docker-compose up --build
+
 ## Environments
 First Service & Second Service
 - Ruby 3.3.1

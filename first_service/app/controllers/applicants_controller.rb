@@ -13,7 +13,7 @@ class ApplicantsController < ApplicationController
   def create
     @applicant = Applicant.new(applicant_params)
     if @applicant.save
-      uri = URI.parse("http://127.0.0.1:3001/obtain_results")
+      uri = URI.parse("http://second_service:3001/obtain_results")
       http = Net::HTTP.new(uri.host, uri.port)
       request = Net::HTTP::Post.new(uri.path, { "Content-Type" => "application/json" })
 

@@ -14,7 +14,7 @@ services:
 
   first_service:
     build: ./first_service
-    command: bash -c "bundle install && rails server -b 0.0.0.0"
+    command: bash -c "bundle install && rails db:migrate && rails server -b 0.0.0.0"
     ports:
       - "3000:3000"
     depends_on:

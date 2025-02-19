@@ -25,11 +25,12 @@ class ResultsController < ApplicationController
             El Puntaje de adecuación final debe ser un número del 0 a 100, donde 100 representa al candidato ideal y 0 representa a un candidato sin ninguna adecuación con el puesto.
             El Puntaje de adecuación final enciérralo en dobles llaves, ejemplo: {{31}}
         PROMPT
+        puts prompt
 
         client = OpenAI::Client.new(
             access_token: ENV["OPENAI_KEY"],
             log_errors: true # Highly recommended in development, so you can see what errors OpenAI is returning. Not recommended in production because it could leak private data to your logs.
-          )
+        )
 
         response = client.chat(
             parameters: {
@@ -38,13 +39,20 @@ class ResultsController < ApplicationController
                 temperature: 0.7
             }
         )
+
+        puts response
+
         text = response.dig("choices", 0, "message", "content") || ""
         score = parse_score_from_response(text)
 
         callback_data = {
             applicant_id: applicant_id.to_i, results: score.to_i, response: text
         }
-        HTTParty.post("http://127.0.0.1:3000/save_results",
+
+        puts text
+        puts score
+
+        HTTParty.post("http://first_service:3000/save_results",
             headers: { "Content-Type" => "application/json" },
             body: callback_data.to_json
         )
