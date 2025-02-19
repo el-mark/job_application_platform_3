@@ -29,7 +29,7 @@ services:
     ports:
       - "3001:3001"
     environment:
-      OPENAI_KEY: "your_openai_key_here"
+      OPENAI_KEY: ${OPENAI_KEY}
     depends_on:
       - postgres
 
