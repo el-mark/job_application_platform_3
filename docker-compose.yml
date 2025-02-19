@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  first_service:
+    build: ./first_service
+    command: bash -c "bundle install && rails server -b 0.0.0.0"
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+    environment:
+      # Construct DATABASE_URL for Rails to connect to PostgreSQL.
+      DATABASE_URL: "postgres://myuser:mypassword@postgres:5432/mydb"
+
+  second_service:
+    build: ./second_service
+    command: bash -c "bundle install && rails server -b 0.0.0.0 -p 3001"
+    ports:
+      - "3001:3001"
+    environment:
+      OPENAI_KEY: "your_openai_key_here"
+    depends_on:
+      - postgres
+
+  third_service:
+    build: ./third_service
+    command: bash -c "npm install && npm start"
+    ports:
+      - "3002:3002"
+
+volumes:
+  postgres-data:
