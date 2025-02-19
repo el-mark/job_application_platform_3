@@ -1,7 +1,10 @@
 # job_application_platform_3
 
-## Docker (build and run containers)
+## Docker
+### Build and run containers
 docker-compose up --build
+### Execute bash
+docker-compose exec first_service bash
 
 ## Environments
 First Service & Second Service
